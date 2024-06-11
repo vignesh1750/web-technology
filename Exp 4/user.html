@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+            color: grey;
+        }
+
+        form {
+            width: 800px; 
+            margin: auto;
+            background-color: ghostwhite;
+            padding: 30px;
+            border-radius: 5px;
+        }
+
+        label {
+            font-weight: bold;
+            display: inline-block;
+            width: 120px;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="number"],
+        select,
+        textarea {
+            width: calc(100% - 130px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 5px;
+            margin-bottom: 10px;
+        }
+
+        button[type="reset"],
+        button[type="submit"] {
+            background-color: forestgreen;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            margin-left: 125px;
+        }
+
+        button[type="reset"]:hover,
+        button[type="submit"]:hover {
+            background-color: aquamarine;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2>User Registration</h2>
+    <form onsubmit="return validateForm()">
+        <table>
+            <tr>
+                <td><label for="username">Name:</label></td>
+                <td>
+                    <input type="text" id="username" name="username">
+                    <span id="usernameError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="rollno">Roll Number:</label></td>
+                <td>
+                    <input type="text" id="rollno" name="rollno">
+                    <span id="rollnoError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Gender:</label></td>
+                <td>
+                    <input type="radio" id="male" name="gender" value="male">
+                    <label for="male">Male</label>
+                    <input type="radio" id="female" name="gender" value="female">
+                    <label for="female">Female</label>
+                    <span id="genderError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Languages Known:</label></td>
+                <td>
+                    <input type="checkbox" id="C" name="languages" value="C">
+                    <label for="C">C</label>
+                    <input type="checkbox" id="JAVA" name="languages" value="JAVA">
+                    <label for="JAVA">Java</label>
+                    <input type="checkbox" id="PYTHON" name="languages" value="PYTHON">
+                    <label for="PYTHON">Pyhton</label>
+                    <span id="languagesError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="aoi">Area of interest:</label></td>
+                <td>
+                    <select id="aoi" name="aoi">
+                        <option value="" disabled selected>Select your Area of interest</option>
+                        <option value="dbms">DBMS</option>
+                        <option value="web">WEB TECHNOLOGY</option>
+                        <option value="java">JAVA DEVELOPMENT</option>
+                        <option value="ml">MACHINE LEARNING</option>
+                        <option value="os">OPERATING SYSTEM</option>
+                    </select>
+                    <span id="aoiError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="email">Email ID:</label></td>
+                <td>
+                    <input type="text" id="email" name="email">
+                    <span id="emailError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="phone">Mobile No:</label></td>
+                <td>
+                    <input type="tel" id="phone" name="phone">
+                    <span id="phoneError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="password">Password:</label></td>
+                <td>
+                    <input type="text" id="password" name="password">
+                    <span id="passwordError" class="error-message"></span>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <button type="reset">Reset</button>
+                    <button type="submit">Submit</button>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var rollno = document.getElementById("rollno").value;
+            var email = document.getElementById("email").value;
+            var phone = document.getElementById("phone").value;
+            var password = document.getElementById("password").value;
+            var gender = document.querySelector('input[name="gender"]:checked');
+            var languages = document.querySelectorAll('input[name="languages"]:checked');
+            var aoi = document.getElementById("aoi").value;
+    
+            var usernameError = document.getElementById("usernameError");
+            var rollnoError = document.getElementById("rollnoError");
+            var emailError = document.getElementById("emailError");
+            var phoneError = document.getElementById("phoneError");
+            var passwordError = document.getElementById("passwordError");
+            var genderError = document.getElementById("genderError");
+            var languagesError = document.getElementById("languagesError");
+            var aoiError = document.getElementById("aoiError");
+            var isValid = true;
+    		
+	    var nameRegex=/^[A-Z]{1}[A-z]+$/
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var phoneRegex = /^\d{10}$/;
+            var rollRegex = /[0-9]{2}[A-z]{3}[0-9]{3}$/;
+             var passwordRegex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,12}$/; 
+    
+            if (username === "") {
+                usernameError.textContent = "Name is required";
+                isValid = false;
+            } else {
+                usernameError.textContent = "";
+            }
+            
+            if (rollno === "") {
+                rollnoError.textContent = "Rollno is required";
+                isValid = false;
+            } else if (!rollRegex.test(rollno)) {
+                rollnoError.textContent = "Roll number must begin with 22ITR";
+                isValid = false;
+            }
+            else {
+                rollnoError.textContent = "";
+            }
+
+    
+            if (email === "") {
+                emailError.textContent = "Email is required";
+                isValid = false;
+            } else if (!emailRegex.test(email)) {
+                emailError.textContent = "Please enter a valid email address";
+                isValid = false;
+            } else {
+                emailError.textContent = "";
+            }
+    
+            if (phone === "") {
+                phoneError.textContent = "Mobile number is required";
+                isValid = false;
+            } else if (!phoneRegex.test(phone)) {
+                phoneError.textContent = "Mobile number must be 10 digits";
+                isValid = false;
+            } else {
+                phoneError.textContent = "";
+            }
+    	    var passwordRegex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,12}$/;
+            if (password === "") {
+                passwordError.textContent = "Password is required";
+                isValid = false;
+            } else if (!passwordRegex.test(password)) {
+                passwordError.textContent = "Password must contain at least 8 characters, including one uppercase letter, one number, and one special character";
+                isValid = false;
+            } else {
+                passwordError.textContent = "";
+            }
+    
+            if (!gender) {
+                genderError.textContent = "Please select a gender";
+                isValid = false;
+            } else {
+                genderError.textContent = "";
+            }
+    
+            if (languages.length === 0) {
+                languagesError.textContent = "Please select at least one language";
+                isValid = false;
+            } else {
+                languagesError.textContent = "";
+            }
+    
+            if (aoi === "") {
+                aoiError.textContent = "Area of Interest is required";
+                isValid = false;
+            } else {
+                aoiError.textContent = "";
+            }
+    
+            if (isValid) {
+                showAlert();
+            }
+    
+            return isValid;
+        }
+
+        function showAlert() {
+            alert("Form submitted successfully!");
+        }
+    </script>
+</body>
+</html>
