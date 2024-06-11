@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EB Bill Calculator</title>
+<style>
+  body {
+        background-image:'C:\Users\Welcome\Downloads';
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .card {
+        background-color: white; /* Set card background to white */
+        border: 2px solid #11000f;
+        padding: 40px;
+        margin: 20px;
+        max-width: 400px;
+        text-align: center;
+        border-radius: 10px;
+    }
+
+
+   #info {
+    display:none;
+    border: 2px solid #11000f;
+    padding: 20px;
+    margin-top: 20px;
+    max-width: 400px;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>EB Bill Calculator</h1>
+
+                <label for="serviceNumber">Serice Number:</label>
+                <input type="number" id="serviceNumber" name="serviceNumber"><br><br>
+    
+                <label for="currentMonth">Current Month Unit (KWh):</label>
+                <input type="number" id="currentMonth" name="currentMonth"><br><br>
+    
+                <label for="previousMonth">Previous Month Unit (KWh):</label>
+                <input type="number" id="previousMonth" name="previousMonth"><br><br>
+    
+                <button onclick="calculateEB()">Calculate</button>
+    
+                <div id="info"></div>
+
+        </div>
+    </div>
+    
+    
+    <script>
+        function calculateEB() {
+            var ebAmount = 0;
+            var tariff = 0;
+            var ebUnits = 0;
+            var gstRate = 0.18;
+            var serviceNumber = parseInt(document.getElementById("serviceNumber").value);
+            var currentMonth = parseFloat(document.getElementById("currentMonth").value);
+            var previousMonth = parseFloat(document.getElementById("previousMonth").value);
+            var infoDiv = document.getElementById("info");
+    
+           
+            if (isNaN(currentMonth) || isNaN(previousMonth)) {
+                infoDiv.innerHTML = "<b style='background-color: #FFFF00; color:red;'>Please enter valid values for current month and previous month units.</b>";
+                return;
+            }
+    
+            ebUnits = currentMonth - previousMonth;
+            if (ebUnits > 0 && ebUnits <= 100) {
+                tariff = 0;
+            } else if (ebUnits <= 200) {
+                ebAmount = (ebUnits - 100) * 2.25;
+                tariff = ebAmount;
+            } else if (ebUnits <= 400) {
+                ebAmount = 225 + ((ebUnits - 200) * 4.5);
+                tariff = ebAmount;
+            } else if (ebUnits <= 500) {
+                ebAmount = 1125 + ((ebUnits - 400) * 6);
+                tariff = ebAmount;
+            } else if (ebUnits <= 600) {
+                ebAmount = 1950 + ((ebUnits - 500) * 8);
+                tariff = ebAmount;
+            } else if (ebUnits <= 800) {
+                ebAmount = 2750 + ((ebUnits - 600) * 9);
+                tariff = ebAmount;
+            } else if (ebUnits <= 1000) {
+                ebAmount = 4550 + ((ebUnits - 800) * 10);
+                tariff = ebAmount;
+            } else if (ebUnits > 1000) {
+                ebAmount = 6550 + ((ebUnits - 1000) * 11);
+                tariff = ebAmount;
+            } else {
+                tariff = 0;
+            }
+    
+            var totalAmount = tariff * (1 + gstRate); // Adding GST to the tariff
+            infoDiv.innerHTML = "Service Number: " + serviceNumber + "<br>Current Month Bill: &#8377; " + tariff.toFixed(2) + "<br>Previous Month Bill: &#8377; " + (ebAmount - tariff).toFixed(2) + "<br>Total Bill (including 18% GST): <b style='background-color: #FFFF00; color:black;'>&#8377; " + totalAmount.toFixed(2) + "</b>";
+            infoDiv.style.display = "block"; // Make sure the infoDiv is visible
+        }
+    </script>
+        </body>
+</html>
+
